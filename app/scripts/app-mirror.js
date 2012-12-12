@@ -73,7 +73,7 @@ function(
 
     // return;
     
-    var paper = Raphael('svg-wrap', 600, 400)
+    var paper = Raphael('svg-wrap')
         ,vertex = [20, 20]
         ,mirrorPath = 'M20,300L'+vertex.join(',')+'L300,20'
         ,mirror = paper.path(mirrorPath).attr({
@@ -174,19 +174,27 @@ function(
 
     var laser
         ,newPath
-        ,rot = -40
-        ,originPos = { x: 200, y: 200 }
+        ,rot = -57
+        ,originPos = { x: 400, y: 350 }
         ,offset = $('#svg-wrap').offset()
         ,rotateCtrl
         ,moveCtrl
+        ,actionCircle
+        ,statsBox = paper.text(originPos.x-70, originPos.y+40, stats())
         ,laserBox = paper.set().push(
+            actionCircle = paper.circle(originPos.x, originPos.y, 120).attr({
+                'stroke': '#bbb',
+                'stroke-dasharray': '--',
+                fill: '#883',
+                'fill-opacity': 0
+            }),
             moveCtrl = paper.rect(originPos.x - 15, originPos.y, 30, 80, 2).attr({
                 stroke: '#3aa',
                 fill: '#3aa',
                 'fill-opacity': 0.5,
                 'cursor': 'move'
             }),
-            rotateCtrl = paper.circle(originPos.x, originPos.y + 120, 6).attr({
+            rotateCtrl = paper.ellipse(originPos.x, originPos.y + 120, 20, 8).attr({
                 fill: '#883',
                 'stroke': '#883',
                 'fill-opacity': 0.5,
@@ -200,7 +208,12 @@ function(
             'stroke-linejoin': 'bevel'
         }
         ;
-        
+
+    function stats(){
+
+        return '';//originPos.x.toFixed(0) + ', ' + originPos.y.toFixed(0) + ' @ ' + rot.toFixed(1) +'°';
+    }
+
     function drawReflections(){
 
         var intr = getReflectionPoints(originPos.x, originPos.y, rot);
@@ -230,6 +243,7 @@ function(
     }
 
     laserBox.transform('r' + rot + ',' + originPos.x + ',' + originPos.y);
+    statsBox.transform('r' + rot + ',' + originPos.x + ',' + originPos.y + 'r' + (-rot));
     drawReflections();
 
     rotateCtrl.drag(function(dx, dy, x, y) {
@@ -241,6 +255,8 @@ function(
         rot = 280 + getAngle(originPos.x, originPos.y, rx, ry);
         
         laserBox.transform('r' + rot + ',' + originPos.x + ',' + originPos.y);
+        statsBox.transform('r' + rot + ',' + originPos.x + ',' + originPos.y + 'r' + (-rot));
+        statsBox.attr('text', stats());
 
         drawReflections();
         paper.safari();
@@ -252,7 +268,16 @@ function(
     }, function(){
 
         $('body').removeClass('rotate');
+        actionCircle.animate({ 'fill-opacity': 0 }, 500);
 
+    }).hover(function(){
+
+        actionCircle.attr({ fill: rotateCtrl.attr('fill') }).animate({ 'fill-opacity': 0.15 }, 500);
+
+    }, function(){
+
+        if (!$('body').hasClass('rotate'))
+            actionCircle.animate({ 'fill-opacity': 0 }, 500);
     });
 
     var ox, oy;
@@ -264,6 +289,10 @@ function(
         originPos.y = oy + dy;
 
         laserBox.transform('r' + rot + ',' + originPos.x + ',' + originPos.y + 't' + dx + ',' + dy);
+        statsBox.transform('t' + dx + ',' + dy);
+        statsBox.attr('text', stats());
+        statsBox.dx = dx;
+        statsBox.dy = dy;
 
         drawReflections();
         paper.safari();
@@ -305,7 +334,24 @@ function(
         });
 
         laserBox.transform('r' + rot + ',' + originPos.x + ',' + originPos.y);
+
+        statsBox.transform('t0,0').attr({
+            x: statsBox.attr('x') + statsBox.dx,
+            y: statsBox.attr('y') + statsBox.dy
+        });
+
         paper.safari();
+
+        actionCircle.animate({ 'fill-opacity': 0 }, 500);
+
+    }).hover(function(){
+
+        actionCircle.attr({ fill: moveCtrl.attr('fill') }).animate({ 'fill-opacity': 0.15 }, 500);
+
+    }, function(){
+
+        if (!$('body').hasClass('rotate'))
+            actionCircle.animate({ 'fill-opacity': 0 }, 500);
     });
 
 });
