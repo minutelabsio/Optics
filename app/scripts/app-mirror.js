@@ -211,7 +211,7 @@ function(
 
     function stats(){
 
-        return originPos.x.toFixed(0) + ', ' + originPos.y.toFixed(0) + ' @ ' + rot.toFixed(1) +'°';
+        return '';//originPos.x.toFixed(0) + ', ' + originPos.y.toFixed(0) + ' @ ' + rot.toFixed(1) +'°';
     }
 
     function drawReflections(){
