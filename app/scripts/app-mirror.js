@@ -73,7 +73,7 @@ function(
 
     // return;
     
-    var paper = Raphael('svg-wrap', 600, 400)
+    var paper = Raphael('svg-wrap')
         ,vertex = [20, 20]
         ,mirrorPath = 'M20,300L'+vertex.join(',')+'L300,20'
         ,mirror = paper.path(mirrorPath).attr({
@@ -174,19 +174,26 @@ function(
 
     var laser
         ,newPath
-        ,rot = -40
-        ,originPos = { x: 200, y: 200 }
+        ,rot = -57
+        ,originPos = { x: 400, y: 350 }
         ,offset = $('#svg-wrap').offset()
         ,rotateCtrl
         ,moveCtrl
+        ,actionCircle
         ,laserBox = paper.set().push(
+            actionCircle = paper.circle(originPos.x, originPos.y, 120).attr({
+                'stroke': '#bbb',
+                'stroke-dasharray': '--',
+                fill: '#883',
+                'fill-opacity': 0
+            }),
             moveCtrl = paper.rect(originPos.x - 15, originPos.y, 30, 80, 2).attr({
                 stroke: '#3aa',
                 fill: '#3aa',
                 'fill-opacity': 0.5,
                 'cursor': 'move'
             }),
-            rotateCtrl = paper.circle(originPos.x, originPos.y + 120, 6).attr({
+            rotateCtrl = paper.ellipse(originPos.x, originPos.y + 120, 20, 8).attr({
                 fill: '#883',
                 'stroke': '#883',
                 'fill-opacity': 0.5,
@@ -200,7 +207,7 @@ function(
             'stroke-linejoin': 'bevel'
         }
         ;
-        
+
     function drawReflections(){
 
         var intr = getReflectionPoints(originPos.x, originPos.y, rot);
@@ -252,7 +259,16 @@ function(
     }, function(){
 
         $('body').removeClass('rotate');
+        actionCircle.animate({ 'fill-opacity': 0 }, 500);
 
+    }).hover(function(){
+
+        actionCircle.attr({ fill: rotateCtrl.attr('fill') }).animate({ 'fill-opacity': 0.15 }, 500);
+
+    }, function(){
+
+        if (!$('body').hasClass('rotate'))
+            actionCircle.animate({ 'fill-opacity': 0 }, 500);
     });
 
     var ox, oy;
@@ -306,6 +322,17 @@ function(
 
         laserBox.transform('r' + rot + ',' + originPos.x + ',' + originPos.y);
         paper.safari();
+
+        actionCircle.animate({ 'fill-opacity': 0 }, 500);
+
+    }).hover(function(){
+
+        actionCircle.attr({ fill: moveCtrl.attr('fill') }).animate({ 'fill-opacity': 0.15 }, 500);
+
+    }, function(){
+
+        if (!$('body').hasClass('rotate'))
+            actionCircle.animate({ 'fill-opacity': 0 }, 500);
     });
 
 });
