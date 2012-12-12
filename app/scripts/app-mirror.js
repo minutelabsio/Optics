@@ -172,14 +172,28 @@ function(
         'stroke-linecap': 'round',
     }).toBack();
 
-    var rayPath = 'M200,200L200,-500'
-        ,laser
+    var laser
         ,newPath
         ,rot = -40
         ,originPos = { x: 200, y: 200 }
-        ,rotateCtrl = paper.rect(originPos.x - 15, originPos.y, 30, 80, 2).attr({
-            fill: '#333'
-        }).transform('r'+rot+',200,200')
+        ,offset = $('#svg-wrap').offset()
+        ,rotateCtrl
+        ,moveCtrl
+        ,laserBox = paper.set().push(
+            moveCtrl = paper.rect(originPos.x - 15, originPos.y, 30, 80, 2).attr({
+                stroke: '#3aa',
+                fill: '#3aa',
+                'fill-opacity': 0.5,
+                'cursor': 'move'
+            }),
+            rotateCtrl = paper.circle(originPos.x, originPos.y + 120, 6).attr({
+                fill: '#883',
+                'stroke': '#883',
+                'fill-opacity': 0.5,
+                'stroke-width': 2,
+                cursor: 'url(images/cursor-rotate.png) 8 8'
+            })
+        )
         ,laserAtt = {
             'stroke': '#c00',
             'stroke-width': 3,
@@ -207,29 +221,91 @@ function(
             
         } else {
             
-            newPath = Raphael.transformPath(rayPath, 'r' + rot + ',' + originPos.x + ',' + originPos.y);
+            newPath = Raphael.transformPath(
+                'M'+ originPos.x + ',' + originPos.y +'L'+ originPos.x + ',' + (originPos.y - 9999), 
+                'r' + rot + ',' + originPos.x + ',' + originPos.y
+            );
             laser = paper.path(newPath).attr(laserAtt);
         }
     }
 
+    laserBox.transform('r' + rot + ',' + originPos.x + ',' + originPos.y);
     drawReflections();
 
     rotateCtrl.drag(function(dx, dy, x, y) {
         
-        var rx = (originPos.x - x)
-            ,ry = (originPos.y - y)
+        var rx = x - offset.left
+            ,ry = y - offset.top
             ;
 
-        rot = 280 + getAngle(originPos.x, originPos.y, x, y);
+        rot = 280 + getAngle(originPos.x, originPos.y, rx, ry);
         
-        rotateCtrl.transform('r' + rot + ',' + originPos.x + ',' + originPos.y);
+        laserBox.transform('r' + rot + ',' + originPos.x + ',' + originPos.y);
 
         drawReflections();
-
-    }, function(x, y){
+        paper.safari();
 
     }, function(){
 
+        $('body').addClass('rotate');
+
+    }, function(){
+
+        $('body').removeClass('rotate');
+
+    });
+
+    var ox, oy;
+
+    moveCtrl.drag(function(dx, dy, x, y) {
+        
+
+        originPos.x = ox + dx;
+        originPos.y = oy + dy;
+
+        laserBox.transform('r' + rot + ',' + originPos.x + ',' + originPos.y + 't' + dx + ',' + dy);
+
+        drawReflections();
+        paper.safari();
+
+    }, function(x, y){
+
+        ox = originPos.x;
+        oy = originPos.y;
+
+        laserBox.forEach(function(el){
+
+            var type = el.type === "rect";
+
+            el.ox = type ? el.attr("x") : el.attr("cx");
+            el.oy = type ? el.attr("y") : el.attr("cy");
+        });
+
+    }, function(){
+
+        var dx = originPos.x - ox
+            ,dy = originPos.y - oy
+            ;
+
+        laserBox.forEach(function(el){
+
+            var type = el.type === "rect"
+                ,ox = type ? el.attr("x") : el.attr("cx")
+                ,oy = type ? el.attr("y") : el.attr("cy")
+                ,att = type ? {
+                        x: el.ox + dx, 
+                        y: el.oy + dy
+                    } : {
+                        cx: el.ox + dx, 
+                        cy: el.oy + dy
+                    }
+                ;
+
+            el.attr(att);
+        });
+
+        laserBox.transform('r' + rot + ',' + originPos.x + ',' + originPos.y);
+        paper.safari();
     });
 
 });
