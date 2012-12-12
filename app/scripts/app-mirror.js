@@ -180,6 +180,7 @@ function(
         ,rotateCtrl
         ,moveCtrl
         ,actionCircle
+        ,statsBox = paper.text(originPos.x-70, originPos.y+40, stats())
         ,laserBox = paper.set().push(
             actionCircle = paper.circle(originPos.x, originPos.y, 120).attr({
                 'stroke': '#bbb',
@@ -207,6 +208,11 @@ function(
             'stroke-linejoin': 'bevel'
         }
         ;
+
+    function stats(){
+
+        return originPos.x.toFixed(0) + ', ' + originPos.y.toFixed(0) + ' @ ' + rot.toFixed(1) +'°';
+    }
 
     function drawReflections(){
 
@@ -237,6 +243,7 @@ function(
     }
 
     laserBox.transform('r' + rot + ',' + originPos.x + ',' + originPos.y);
+    statsBox.transform('r' + rot + ',' + originPos.x + ',' + originPos.y + 'r' + (-rot));
     drawReflections();
 
     rotateCtrl.drag(function(dx, dy, x, y) {
@@ -248,6 +255,8 @@ function(
         rot = 280 + getAngle(originPos.x, originPos.y, rx, ry);
         
         laserBox.transform('r' + rot + ',' + originPos.x + ',' + originPos.y);
+        statsBox.transform('r' + rot + ',' + originPos.x + ',' + originPos.y + 'r' + (-rot));
+        statsBox.attr('text', stats());
 
         drawReflections();
         paper.safari();
@@ -280,6 +289,10 @@ function(
         originPos.y = oy + dy;
 
         laserBox.transform('r' + rot + ',' + originPos.x + ',' + originPos.y + 't' + dx + ',' + dy);
+        statsBox.transform('t' + dx + ',' + dy);
+        statsBox.attr('text', stats());
+        statsBox.dx = dx;
+        statsBox.dy = dy;
 
         drawReflections();
         paper.safari();
@@ -321,6 +334,12 @@ function(
         });
 
         laserBox.transform('r' + rot + ',' + originPos.x + ',' + originPos.y);
+
+        statsBox.transform('t0,0').attr({
+            x: statsBox.attr('x') + statsBox.dx,
+            y: statsBox.attr('y') + statsBox.dy
+        });
+
         paper.safari();
 
         actionCircle.animate({ 'fill-opacity': 0 }, 500);
