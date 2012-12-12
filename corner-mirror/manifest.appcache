@@ -1,10 +1,6 @@
-TypeError: 'undefined' is not an object (evaluating 'a.fn')
-
-  http://localhost:3501/scripts/8ab52a5b.plugins.js:1
-  http://localhost:3501/scripts/8ab52a5b.plugins.js:1
 CACHE MANIFEST
 
-# Time: Wed Dec 12 2012 01:35:07 GMT-0500 (EST)
+# Time: Wed Dec 12 2012 01:37:54 GMT-0500 (EST)
 # This manifest was created by confess.js, http://github.com/jamesgpearce/confess
 #
 # Retrieved URL: http://localhost:3501/
@@ -29,7 +25,6 @@ http://localhost:3501/app/images/glyphicons-halflings-white.png?1355288048
 http://localhost:3501/app/images/glyphicons-halflings.png?1355288048
 http://www.google-analytics.com/ga.js
 scripts/64813b7b.amd-app.js
-scripts/8ab52a5b.plugins.js
 scripts/vendor/cf69c6f2.modernizr.min.js
 styles/ee07b287.main.css
 
