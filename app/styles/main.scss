@@ -51,3 +51,26 @@ body.rotate {
     font-size: 16px;
     font-size: 1rem;
 }
+
+#no-svg-msg {
+    display: none;
+}
+
+.no-svg {
+    #no-svg-msg {
+        @extend .span4;
+        display: block;
+    }
+
+    #svg-wrap {
+        display: none;
+    }
+}
+
+
+.page-footer {
+    border-top: 1em solid #191919;
+    background: #F0EFD1;
+    color: #191919;
+    padding: 3em 0 6em;
+}

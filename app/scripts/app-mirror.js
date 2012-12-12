@@ -1,12 +1,17 @@
 define(
 [
     'jquery',
+    'modules/tracking',
     'raphael'
 ], 
 function(
     $,
+    tracking,
     Raphael
 ){
+    if (!Modernizr.svg) return;
+
+    var rayTrackSize = 9999;
 
     function getAngle(x1, y1, x2, y2, x3, y3){
 
@@ -99,7 +104,7 @@ function(
 
     function getReflectionPoints(x, y, ang, _refs){
 
-        var incedent = Raphael.transformPath('M'+[x,y].join(',')+'L'+[x,y-9999].join(','), 'r' + ang + ',' + [x,y].join(','))
+        var incedent = Raphael.transformPath('M'+[x,y].join(',')+'L'+[x,y-rayTrackSize].join(','), 'r' + ang + ',' + [x,y].join(','))
             ,it = Raphael.pathIntersection(incedent, mirrorPath)
             ,alpha
             ,beta
@@ -223,8 +228,8 @@ function(
         if (intr.points.length){
             
             var len = intr.points.length
-                ,lastX = 9999*Math.sin(Raphael.rad(intr.points[len-1].ang))
-                ,lastY = -9999*Math.cos(Raphael.rad(intr.points[len-1].ang))
+                ,lastX = rayTrackSize*Math.sin(Raphael.rad(intr.points[len-1].ang))
+                ,lastY = -rayTrackSize*Math.cos(Raphael.rad(intr.points[len-1].ang))
                 ;
 
             laser = paper.path('M'+originPos.x + ',' + originPos.y + 
@@ -235,7 +240,7 @@ function(
         } else {
             
             newPath = Raphael.transformPath(
-                'M'+ originPos.x + ',' + originPos.y +'L'+ originPos.x + ',' + (originPos.y - 9999), 
+                'M'+ originPos.x + ',' + originPos.y +'L'+ originPos.x + ',' + (originPos.y - rayTrackSize), 
                 'r' + rot + ',' + originPos.x + ',' + originPos.y
             );
             laser = paper.path(newPath).attr(laserAtt);
