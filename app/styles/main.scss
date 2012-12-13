@@ -32,14 +32,14 @@ body.rotate {
     position: absolute;
     top: 9em;
     right: -1em;
-    padding: 0.5em 1em;
+    padding: 0.5em 2em;
     z-index: 2;
 
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     -ms-border-radius: 5px;
     border-radius: 5px;
-    background: rgba(255,255,255, 0.5);
+    background: rgba(240, 239, 209, 0.7);
 }
 
 #video {
@@ -131,7 +131,7 @@ body.rotate {
     left: 0;
 
     padding: 1em;
-    background: rgba(255,255,255,0.5);
+    background: rgba(240, 239, 209, 0.7);
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     -ms-border-radius: 5px;
