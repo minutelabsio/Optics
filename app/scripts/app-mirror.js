@@ -143,6 +143,7 @@ function(
             ,rot = -57
             ,originPos = { x: 380, y: 350 }
             ,offset = $('#svg-wrap').offset()
+            ,instBBox = $('#instructions')
             ,rotateCtrl
             ,moveCtrl
             ,actionCircle
@@ -174,6 +175,26 @@ function(
                 'stroke-linejoin': 'bevel'
             }
             ;
+        
+        // get some measurements
+        offset.width = $('#svg-wrap').innerWidth();
+        offset.height = $('#svg-wrap').innerHeight();
+
+        if (instBBox.length){
+            instBBox = {
+                x: instBBox.offset().left - offset.left,
+                y: instBBox.offset().top - offset.top,
+                width: instBBox.outerWidth(),
+                height: instBBox.outerHeight()
+            };
+
+            instBBox.x2 = instBBox.x + instBBox.width;
+            instBBox.y2 = instBBox.y + instBBox.height;
+
+        } else {
+
+            instBBox = false;
+        }
 
         function stats(){
 
@@ -247,11 +268,43 @@ function(
                 actionCircle.animate({ 'fill-opacity': 0 }, 500);
         });
 
-        var ox, oy;
+        var ox, oy, odx, ody;
 
         moveCtrl.drag(function(dx, dy, x, y) {
-            
 
+            var laserBB = laserBox.getBBox();
+
+            // apply simple boundary conditions
+            if ((laserBB.y2 + dy - ody) > offset.height){
+
+                dy = Math.min(ody - laserBB.y2 + offset.height, dy);
+
+            } else if ((laserBB.y + dy - ody) < 0){
+
+                dy = Math.max(ody - laserBB.y, dy);
+            }
+
+            if ((laserBB.x2 + dx - odx) > offset.width){
+
+                dx = Math.min(odx - laserBB.x2 + offset.width, dx);
+
+            } else if ((laserBB.x + dx - odx) < 0){
+
+                dx = Math.max(odx - laserBB.x, dx);
+            }
+
+            if (
+                instBBox && 
+                (laserBB.x2 + dx - odx) > instBBox.x && 
+                laserBB.y < instBBox.y2 && 
+                laserBB.y2 > instBBox.y
+            ){
+
+                dx = Math.min(odx + instBBox.x - laserBB.x2, dx);
+            }
+
+            // move it
+            
             originPos.x = ox + dx;
             originPos.y = oy + dy;
 
@@ -263,6 +316,9 @@ function(
 
             drawReflections();
             paper.safari();
+
+            odx = dx;
+            ody = dy;
 
         }, function(x, y){
 
