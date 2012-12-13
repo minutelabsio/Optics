@@ -3,7 +3,8 @@ body {
     font: 100%/1.66 'Antic', sans-serif;
 }
 
-$baseLineHeight: 1.66;
+$baseLineHeight: 24px;
+$linkColor: #AE3737;
 
 @import "compass_twitter_bootstrap";
 
@@ -28,8 +29,8 @@ body.rotate {
 
 #instructions {
     position: absolute;
-    top: 8em;
-    right: 0;
+    top: 9em;
+    right: -1em;
     padding: 0.5em 1em;
     z-index: 2;
 
@@ -38,6 +39,18 @@ body.rotate {
     -ms-border-radius: 5px;
     border-radius: 5px;
     background: rgba(255,255,255, 0.5);
+}
+
+#video {
+    margin-bottom: 6em;
+
+    .thumbnail {
+        margin-left: 4em;
+    }
+}
+
+.js .site-thumb {
+   display: none; 
 }
 
 #svg-wrap {
@@ -67,10 +80,18 @@ body.rotate {
     }
 }
 
-
 .page-footer {
     border-top: 1em solid #191919;
     background: #F0EFD1;
     color: #191919;
     padding: 3em 0 6em;
 }
+
+.about p {
+    overflow: hidden;
+}
+.twitter-coffee {
+    overflow: hidden;
+    margin: 0 1em 0 -6px;
+}
+
