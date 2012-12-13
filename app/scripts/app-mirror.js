@@ -16,8 +16,6 @@ function(
 
     if (!Modernizr.svg) return;
 
-    var rayTrackSize = 9999;
-
     function getAngle(x1, y1, x2, y2, x3, y3){
 
         if (x3 === undefined) {
@@ -41,6 +39,7 @@ function(
     $(function(){
 
         var paper = Raphael('svg-wrap')
+            ,rayTrackSize = 999
             ,vertex = [20, 20]
             ,mirrorPath = 'M20,300L'+vertex.join(',')+'L300,20'
             ,mirror = paper.path(mirrorPath).attr({
@@ -58,7 +57,7 @@ function(
 
             var y = Math.abs(p2.y - p1.y)
                 ,x = Math.abs(p2.x - p1.x)
-                ,epsilon = 0.0001
+                ,epsilon = 0.000001
                 ;
 
             return y < epsilon && x < epsilon;
@@ -190,8 +189,9 @@ function(
             if (intr.points.length){
                 
                 var len = intr.points.length
-                    ,lastX = rayTrackSize*Math.sin(Raphael.rad(intr.points[len-1].ang))
-                    ,lastY = -rayTrackSize*Math.cos(Raphael.rad(intr.points[len-1].ang))
+                    ,lastPt = intr.points[len-1]
+                    ,lastX = rayTrackSize * Math.sin(Raphael.rad(lastPt.ang)) + lastPt.x
+                    ,lastY = -rayTrackSize * Math.cos(Raphael.rad(lastPt.ang)) + lastPt.y
                     ;
 
                 laser = paper.path('M'+originPos.x + ',' + originPos.y + 
