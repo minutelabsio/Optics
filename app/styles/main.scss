@@ -21,6 +21,7 @@ h1, h2, h3, h4, h5, h6, .page-header {
 
 p {
     text-rendering: optimizeLegibility;
+    margin: 24px 0;
 }
 
 body.rotate {
@@ -85,6 +86,10 @@ body.rotate {
     background: #F0EFD1;
     color: #191919;
     padding: 3em 0 6em;
+
+    .addthis_toolbox {
+        margin-bottom: 2em;
+    }
 }
 
 .about p {
