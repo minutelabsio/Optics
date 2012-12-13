@@ -141,7 +141,7 @@ function(
         var laser
             ,newPath
             ,rot = -57
-            ,originPos = { x: 400, y: 350 }
+            ,originPos = { x: 380, y: 350 }
             ,offset = $('#svg-wrap').offset()
             ,rotateCtrl
             ,moveCtrl
