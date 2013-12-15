@@ -9,7 +9,7 @@ thumb: "http://minutelabs.io/assets/images/corner-reflector.gif"
 version: "0.0.1"
 
 ml_url: "http://minutelabs.io"
-library_path: "library-build" # changeme
+library_path: "/Optics/library-build" # changeme
 
 show :
   branding: true
