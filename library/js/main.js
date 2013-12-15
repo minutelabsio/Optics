@@ -10,7 +10,7 @@ require.config({
 
     paths: {
         jquery: 'vendor/jquery.min',
-        raphael: 'vendor/raphael-min',
+        raphael: '../components/raphael/raphael-min',
         bootstrap: 'vendor/bootstrap'
     },
 
@@ -19,4 +19,4 @@ require.config({
     }
 });
  
-require(['app-mirror']);
+require(['app']);

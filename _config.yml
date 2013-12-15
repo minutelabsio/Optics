@@ -1,0 +1,18 @@
+permalink: /:year-:month-:day/:title
+markdown: rdiscount
+exclude: ["README.md", "CNAME", "LICENSE", "build", "config.rb", "Gruntfile.js", "package.json", "jshint.json"]
+
+title : "Corner Reflectors"
+id : "/2013-12-16/corner-reflectors"
+description : "Learn how corner reflectors work"
+thumb: "http://minutelabs.io/assets/images/corner-reflector.gif"
+version: "0.0.1"
+
+ml_url: "http://minutelabs.io"
+library_path: "library-build" # changeme
+
+show :
+  branding: true
+  details: true
+  comments: true
+
