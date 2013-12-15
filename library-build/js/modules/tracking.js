@@ -1,0 +1,1 @@
+define(["jquery"],function(e){e(document).on("click","a[href^=http]",function(t){var n=e(this),r=n.attr("href"),i=n.attr("target")==="_blank"||t.metaKey||t.ctrlKey;window._gaq=window._gaq||[];try{window._gaq.push(["_trackEvent","Outbound Links",t.currentTarget.host,r,0]),i||(t.preventDefault(),setTimeout(function(){document.location=r},100))}catch(s){}})});
