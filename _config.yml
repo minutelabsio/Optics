@@ -3,12 +3,14 @@ markdown: rdiscount
 exclude: ["README.md", "CNAME", "LICENSE", "build", "config.rb", "Gruntfile.js", "package.json", "jshint.json"]
 
 title : "Corner Reflectors"
-id : "/2013-12-16/corner-reflectors"
+id : "77183188293"
 description : "Learn how corner reflectors work"
-thumb: "http://minutelabs.io/assets/images/corner-reflector.gif"
+thumb: "http://labs.minutelabs.io/assets/images/corner-reflector.gif"
 version: "0.0.1"
 
 ml_url: "http://minutelabs.io"
+ml_library: "http://labs.minutelabs.io/library"
+ml_assets: "http://labs.minutelabs.io/assets"
 library_path: "/Optics/library-build" # changeme
 
 show :
